@@ -1,6 +1,7 @@
 // Testing Pure Functions
 
 // 🐨 import the function that we're testing
+import cases from 'jest-in-case'
 import {isPasswordAllowed} from '../auth'
 
 // 🐨 write tests for valid and invalid passwords
@@ -30,3 +31,30 @@ describe('isAllowed will only pass some passwords', () => {
     })
   })
 })
+
+cases(
+  'isPasswordAllowed: valid password',
+  (options) => {
+    expect(isPasswordAllowed(options.password)).toBe(true)
+  },
+  {
+    validPassword: {
+      password: '!aBc123',
+    },
+  },
+)
+
+cases(
+  'isPasswordAllowed: invalid password',
+  (options) => {
+    expect(isPasswordAllowed(options.password)).toBe(false)
+  },
+  {
+    'too short': {
+      password: 'a2c!',
+    },
+    digit: {
+      password: 'abc!',
+    },
+  },
+)
